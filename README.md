@@ -4,6 +4,9 @@ Web service built in Python to 1) shorten URLs and 2) return the original longer
 
 **Time Spent**: 2.5 hours on the product, then about 15 minutes on the README
 
+**Considerations**: Would have made a UI for users to input the URLs but wanted to save time
+
+
 ## Setup
 
 
