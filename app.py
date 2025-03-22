@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import random, string
 
@@ -32,6 +32,31 @@ def create_short_url_key(length=8):
 @app.route('/')
 def index():
     return "Index page for URL app"
+
+@app.route('/shorten', methods=['POST'])
+def shorten_url():
+    data = request.json
+    long_url = data.get('url')
+
+    # Returns a 400 Error if URL is not provided
+    if not long_url:
+        return jsonify({"error": "URL not provided"}), 400
+    
+    # Create short key
+    short_key = create_short_url_key()
+    # Checks if the short key is unique and creates a new one if not
+    exisitng_url = URL.query.filter_by(short_url=short_key).first()
+    if exisitng_url:
+        short_key = create_short_url_key()
+
+    # Add and saves new entry to database
+    new_url = URL(short_url=short_key,original_url=long_url)
+    db.session.add(new_url)
+    db.session.commit()
+
+    # Return shortened URL
+    return jsonify(short_url = f"http://localhost:5000/{short_key}")
+
 
 if __name__ == "__main__":
     # Creating URL database table before any request is processed
