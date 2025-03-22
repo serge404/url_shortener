@@ -2,6 +2,8 @@
 
 Web service built in Python to 1) shorten URLs and 2) return the original longer URLs given the shortened URL
 
+**Time Spent**: 2.5 hours on the product, then about 15 minutes on the README
+
 ## Setup
 
 
@@ -47,5 +49,6 @@ While app is running in another Terminal tab, run the following CURL command to 
 
 ## Redirect to Original URL
 In your browser go to the short URL in the response, you should automatically be redirected to the original URL
+
 
 
