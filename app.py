@@ -55,8 +55,20 @@ def shorten_url():
     db.session.commit()
 
     # Return shortened URL
-    return jsonify(short_url = f"http://localhost:5000/{short_key}")
+    return jsonify(short_url = f"http://127.0.0.1:5000/{short_key}")
 
+@app.route('/<short_key>', methods=['GET'])
+def redirect_short_url(short_key):
+    # Look through database to find the matching original url using the short key
+    url = URL.query.filter_by(short_url=short_key).first()
+    
+     # If short key is found, user is redirected to the orginal longer url
+    if url:
+        return redirect(url.original_url)
+    
+    # If short key isn't found, error message pops up
+    if not url:
+        return jsonify({"error": "URL not found"}), 404
 
 if __name__ == "__main__":
     # Creating URL database table before any request is processed
